@@ -8,7 +8,7 @@ The dataset is described in our paper:
 
 ## Contents
 
-The annotations are distributed as a single Excel file, `GSM_consolidated_annotations.xlsx`, containing the following sheets:
+The annotations are distributed as a single Excel file, `Math-DB-Annotations.xlsx`, containing the following sheets:
 
 | Sheet | Description |
 |---|---|
