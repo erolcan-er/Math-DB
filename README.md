@@ -13,23 +13,32 @@ The annotations are distributed as a single Excel file, `Math-DB-Annotations.xls
 | Sheet | Description |
 |---|---|
 | `Annotations` | The full set of 47,815 discourse relations. One row per relation, with problem ID, instance, dataset subset (`main` / `p1` / `p2`), question text, argument spans (Arg-1, Arg-2), discourse connective, and final sense label. |
-| `Canonical_Templates` | Canonical relation templates aggregated per original GSM8K problem (1,061 templates). Used to track alignment between symbolic instantiations of the same underlying problem. |
+| `Canonical_Templates` | Canonical relation templates aggregated per original GSM8K problem. Used to track alignment between symbolic instantiations of the same underlying problem. |
 | `Dataset_Counts` | Number of annotated problem instances per subset (`main`, `p1`, `p2`). |
 | `Type_Counts` | Counts of Explicit vs. Implicit discourse relations. |
 | `DC_Counts` | Frequency of each explicit discourse connective. |
 | `Sense_Counts` | Counts of each Level-2 sense label. |
-| `Unaligned_Instances` | Problem instances that could not be aligned to a canonical template (e.g., due to discourse-relation count mismatch). |
-| `Resegment_Failures` | Problem instances where automatic re-segmentation could not be applied. |
+| `Unaligned_Instances` | Source problem instances that could not be aligned to a canonical template due to a discourse-relation count mismatch. Released as metadata to support future work on robust parsing. |
+| `Resegment_Failures` | Problem instances where automatic re-segmentation could not be applied. These instances are still included in `Annotations` (using the original segmentation as fallback); this sheet documents which instances were affected. |
 
 ## Corpus Statistics
 
+The source GSM-Symbolic release provides 12,500 problem instances. We annotated 11,414 of them; the remaining 1,086 (≈8.7%) could not be aligned to their canonical sense sequence and are reported separately in `Unaligned_Instances`.
+
+| Subset | Source | Annotated | Unaligned |
+|---|---:|---:|---:|
+| Symbolic (base) | 5,000 | 4,621 | 379 |
+| GSM-P1 | 5,000 | 4,535 | 465 |
+| GSM-P2 | 2,500 | 2,258 | 242 |
+| **Total** | **12,500** | **11,414** | **1,086** |
+
+### Relation-level totals
+
 | Statistic | Value |
 |---|---|
-| Annotated problems | 11,414 |
 | Discourse relations | 47,815 |
 | Explicit relations | 15,011 (31.4%) |
 | Implicit relations | 32,804 (68.6%) |
-| Subsets | Symbolic (4,621), GSM-P1 (4,535), GSM-P2 (2,258) |
 
 ### Distribution of Level-1 senses
 
@@ -59,7 +68,7 @@ Full definitions, decision criteria, and worked examples are provided in Appendi
 import pandas as pd
 
 # Load the full annotations
-ann = pd.read_excel("GSM_consolidated_annotations.xlsx", sheet_name="Annotations")
+ann = pd.read_excel("Math-DB-Annotations.xlsx", sheet_name="Annotations")
 
 # Filter to the base GSM-Symbolic subset
 main = ann[ann["Original_Dataset"] == "main"]
@@ -72,14 +81,7 @@ print(main[main["id"] == 0][["DR_Position", "Arg-1-Text", "Arg-2-Text", "DC", "S
 
 If you use Math-DB in your research, please cite:
 
-```bibtex
-@inproceedings{mathdb2025,
-  title     = {Math-DB: A Discourse Framework for Mathematical Word Problems to Enhance LLM Reasoning},
-  author    = {Anonymous},
-  booktitle = {Proceedings of ACL},
-  year      = {2025}
-}
-```
+
 
 (Citation will be updated upon publication.)
 
