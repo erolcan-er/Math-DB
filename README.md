@@ -23,7 +23,7 @@ The annotations are distributed as a single Excel file, `Math-DB-Annotations.xls
 
 ## Corpus Statistics
 
-The source GSM-Symbolic release provides 12,500 problem instances. We annotated 11,414 of them; the remaining 1,086 (≈8.7%) could not be aligned to their canonical sense sequence and are reported separately in `Unaligned_Instances`.
+The repository covers all 12,500 problem instances released in GSM-Symbolic. Of these, 11,414 are fully annotated in the `Annotations` sheet, and 1,086 (≈8.7%) are listed in `Unaligned_Instances` as instances where the automatic parser produced a discourse-relation count that did not match the canonical sense sequence for the template, preventing reliable alignment. The two sheets together account for every source instance.
 
 | Subset | Source | Annotated | Unaligned |
 |---|---:|---:|---:|
