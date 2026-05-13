@@ -21,13 +21,37 @@ The annotations are distributed as a single Excel file, `Math-DB-Annotations.xls
 | `Unaligned_Instances` | Source problem instances that could not be aligned to a canonical template due to a discourse-relation count mismatch. Released as metadata to support future work on robust parsing. |
 | `Resegment_Failures` | Problem instances where automatic re-segmentation could not be applied. These instances are still included in `Annotations` (using the original segmentation as fallback); this sheet documents which instances were affected. |
 
+### Diagnostic logs
+
+Two of the sheets (`Unaligned_Instances` and `Resegment_Failures`) document instances where the automatic Stage-1 pipeline encountered difficulties. These are released as part of the dataset, both for transparency about pipeline coverage and as a targeted benchmark for future work on robust discourse segmentation of mathematical text.
+
+- `Unaligned_Instances` (1,086 instances) — the detected number of discourse relations did not match the canonical template, so these instances are **excluded** from `Annotations`. These correspond to the 1,086-instance gap discussed in §4.4 of the paper.
+- `Resegment_Failures` (5,196 instances) — automatic re-segmentation to the canonical clause boundaries could not be applied, so these instances appear in `Annotations` using their original segmentation as fallback. They are **included** in the 11,414 annotated instances and 47,815 relations reported in the paper.
+
+## `Annotations` schema
+
+| Column | Description |
+|---|---|
+| `id` | Source template ID (0–99); identifies the GSM8K seed problem. |
+| `instance` | Variant index within the template. |
+| `Original_Dataset` | Subset: `main`, `p1`, or `p2`. |
+| `question` | The full variant-specific problem text. |
+| `original_id` | The corresponding GSM8K problem ID. |
+| `original_question` | The seed GSM8K problem text. |
+| `DR_Position` | Position of this discourse relation within the problem (1-indexed). |
+| `Relation_Type` | `Explicit` (overt connective present) or `Implicit`. |
+| `Arg-1-Text` / `Arg-2-Text` | The two text spans linked by the relation. |
+| `DC` | The discourse connective span (only for `Explicit` relations). |
+| `Sense` | The final Math-DB sense label (Level-1.Level-2). |
+| `Resegmented` | Whether the spans were derived from automatic resegmentation. |
+
 ## Corpus Statistics
 
 The repository covers all 12,500 problem instances released in GSM-Symbolic. Of these, 11,414 are fully annotated in the `Annotations` sheet, and 1,086 (≈8.7%) are listed in `Unaligned_Instances` as instances where the automatic parser produced a discourse-relation count that did not match the canonical sense sequence for the template, preventing reliable alignment. The two sheets together account for every source instance.
 
 | Subset | Source | Annotated | Unaligned |
 |---|---:|---:|---:|
-| Symbolic (base) | 5,000 | 4,621 | 379 |
+| Symbolic (Main) | 5,000 | 4,621 | 379 |
 | GSM-P1 | 5,000 | 4,535 | 465 |
 | GSM-P2 | 2,500 | 2,258 | 242 |
 | **Total** | **12,500** | **11,414** | **1,086** |
@@ -77,13 +101,24 @@ main = ann[ann["Original_Dataset"] == "main"]
 print(main[main["id"] == 0][["DR_Position", "Arg-1-Text", "Arg-2-Text", "DC", "Sense"]])
 ```
 
+## Reproducing the experiments
+
+Prompt templates for both the baseline and discourse-augmented CoT experiments (GPT-4o-mini, greedy decoding) are provided in Appendix C of the paper.
+
 ## Citation
 
 If you use Math-DB in your research, please cite:
 
+```bibtex
+@misc{er2025mathdb,
+  title  = {Math-DB: A Discourse Framework for Mathematical Word Problems to Enhance LLM Reasoning},
+  author = {Er, Mustafa Erolcan},
+  year   = {2025},
+  note   = {Manuscript under review.}
+}
+```
 
-
-(Citation will be updated upon publication.)
+(BibTeX entry will be updated to the final venue upon publication.)
 
 ## License
 
