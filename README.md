@@ -4,7 +4,7 @@ This repository contains **Math-DB**, a discourse-annotated corpus of mathematic
 
 The dataset is described in our paper:
 
-> *Math-DB: A Discourse Framework for Mathematical Word Problems to Enhance LLM Reasoning.
+> *Math-DB: A Discourse Framework for Mathematical Word Problems to Enhance LLM Reasoning.*
 
 ## Contents
 
